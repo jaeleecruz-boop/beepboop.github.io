@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Road to Regionals 🥏</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary: #0055ff;
+      --primary-dark: #003bb3;
+      --accent: #ff0055;
+      --bg: #f4f7f6;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.5rem;
+    }
+
+    /* Countdown Timer */
+    .countdown-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .countdown-timer {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .timer-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timer-number {
+      font-size: 1.8rem;
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Tab Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      background: white;
+      border-bottom: 2px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    /* Main Content Area */
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--primary-dark);
+    }
+
+    /* Interactive Checklist */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .checklist-item input {
+      width: 18px;
+      height: 18px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+
+    /* Schedule Timeline */
+    .schedule-event {
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+      background: #f8fa0010;
+      margin-bottom: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .schedule-event h4 {
+      margin: 0 0 0.25rem 0;
+      color: var(--text);
+    }
+
+    .schedule-event p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Anonymous Shoutouts */
+    .shoutout-form textarea {
+      width: 100%;
+      height: 80px;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .shoutout-form button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .shoutouts-list {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .shoutout-card {
+      background: #fff5f8;
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+
+    /* Cards Layout for Scouting/Expectations */
+    .info-card {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Road to Regionals 🥏</h1>
+    <p>Win Regionals ➔ Ticket to Nationals!</p>
+    
+    <!-- Game Timer -->
+    <div class="countdown-container">
+      <div style="font-size: 0.85rem; margin-bottom: 0.5rem;">NEXT GAME IN:</div>
+      <div class="countdown-timer" id="timer">
+        <div class="timer-block"><span class="timer-number" id="days">00</span><span class="timer-label">Days</span></div>
+        <div class="timer-block"><span class="timer-number" id="hours">00</span><span class="timer-label">Hours</span></div>
+        <div class="timer-block"><span class="timer-number" id="mins">00</span><span class="timer-label">Mins</span></div>
+        <div class="timer-block"><span class="timer-number" id="secs">00</span><span class="timer-label">Secs</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav>
+    <button class="tab-btn active" onclick="switchTab('checklist')">Checklist</button>
+    <button class="tab-btn" onclick="switchTab('schedule')">Schedule</button>
+    <button class="tab-btn" onclick="switchTab('scouting')">Scouting Report</button>
+    <button class="tab-btn" onclick="switchTab('expect')">What to Expect</button>
+    <button class="tab-btn" onclick="switchTab('shoutouts')">Shoutouts 📣</button>
+  </nav>
+
+  <!-- Content Sections -->
+  <main>
+
+    <!-- Checklist Tab -->
+    <div id="checklist" class="tab-content active">
+      <h2>Packing & Preparation Checklist</h2>
+      <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">Light and Dark Jersey Sets</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">Cleats (check studs/spikes)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">Foam roller & massage gun</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">Electrolytes & High-Carb Snacks</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">Warmup gear / Rain jacket</label></div>
+    </div>
+
+    <!-- Schedule Tab -->
+    <div id="schedule" class="tab-content">
+      <h2>Remaining Season Schedule</h2>
+      <div class="schedule-event">
+        <h4>Sept 26 - 9:00 AM: Game 1 (Pool Play)</h4>
+        <p>Field 4 • Arrive by 8:00 AM for warmups!</p>
+      </div>
+      <div class="schedule-event">
+        <h4>Sept 26 - 1:00 PM: Game 2 (Pool Play)</h4>
+        <p>Field 2 • High-energy match, nutrition break at 11:30 AM.</p>
+      </div>
+      <div class="schedule-event">
+        <h4>Sept 27 - Bracket Play</h4>
+        <p>Times TBA based on Day 1 seeding. Goal: Championship Game!</p>
+      </div>
+    </div>
+
+    <!-- Scouting Tab -->
+    <div id="scouting" class="tab-content">
+      <h2>Opponent Scouting Report</h2>
+      <div class="info-card">
+        <h3>Rival Team A</h3>
+        <p><strong>Zone Defense:</strong> Runs a tight 1-2-2 cup on windier days. Quick swings through middle-middle are key.</p>
+        <p><strong>Key Players:</strong> #12 primary handler (likes deep hucks to high side).</p>
+      </div>
+      <div class="info-card">
+        <h3>Rival Team B</h3>
+        <p><strong>Offense:</strong> Heavy vert stack with deep isolations. We need strong mark pressure to force low-percentage throws.</p>
+      </div>
+    </div>
+
+    <!-- What to Expect Tab -->
+    <div id="expect" class="tab-content">
+      <h2>What to Expect at Regionals</h2>
+      <ul>
+        <li><strong>Physicality:</strong> High intensity every point. Stay sharp and communicate on the field.</li>
+        <li><strong>Weather & Conditions:</strong> Be prepared for wind and weather changes—bring layers!</li>
+        <li><strong>Mindset:</strong> One point at a time. Support your teammates through any runs.</li>
+      </ul>
+    </div>
+
+    <!-- Anonymous Shoutouts Tab -->
+    <div id="shoutouts" class="tab-content">
+      <h2>Anonymous Team Shoutouts 📣</h2>
+      <p>Send some hype or appreciation to a teammate anonymously!</p>
+      <div class="shoutout-form">
+        <textarea id="shoutoutInput" placeholder="S/O to Sarah for those insane layouts in practice!"></textarea>
+        <button onclick="addShoutout()">Post Hype</button>
+      </div>
+      <div class="shoutouts-list" id="shoutoutsList">
+        <div class="shoutout-card">"Hyped for this weekend! Let's bring home the W!"</div>
+        <div class="shoutout-card">"Shoutout to the handlers for working in that heavy wind last practice!"</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Tab Navigation Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Countdown Timer Logic (Target: Sept 26, 9:00 AM)
+    const targetDate = new Date('September 26, 2026 09:00:00').getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = String(days).padStart(2, '0');
+        document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+        document.getElementById('mins').innerText = String(mins).padStart(2, '0');
+        document.getElementById('secs').innerText = String(secs).padStart(2, '0');
+      } else {
+        document.getElementById('timer').innerHTML = "<b>IT'S GAME TIME! GO GET THAT BID! 🥏</b>";
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Anonymous Shoutout Logic
+    function addShoutout() {
+      const input = document.getElementById('shoutoutInput');
+      const text = input.value.trim();
+      
+      if (text) {
+        const shoutoutsList = document.getElementById('shoutoutsList');
+        const newCard = document.createElement('div');
+        newCard.className = 'shoutout-card';
+        newCard.innerText = `"${text}"`;
+        
+        shoutoutsList.prepend(newCard);
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+</html>
